@@ -159,13 +159,14 @@ module PureMVCSingleton
       super
       klass.private_class_method :new, :allocate
       klass.extend SingletonClassMethods
-      Singleton.__init__(klass)
+      PureMVCSingleton.__init__(klass)
     end
   end
 
   ##
   # :singleton-method: _load
   #  By default calls instance(). Override to retain singleton state.
+
   class SingletonQueue
     @@myq = nil
     @@queue = nil
