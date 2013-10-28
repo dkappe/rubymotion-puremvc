@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
-VERSION = "1.0.1"
-
 Gem::Specification.new do |spec|
   spec.name          = "PureMVC"
-  spec.version       = VERSION
+  spec.version       = "1.0.2"
   spec.authors       = ["Dietrich Kappe"]
   spec.email         = ["dkappe@pathf.com"]
   spec.description   = %q{Gem for Ruby PureMVC}

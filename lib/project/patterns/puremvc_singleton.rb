@@ -92,6 +92,11 @@
 #    p a.strip #  => nil
 #
 module PureMVCSingleton
+  MUTEX = nil
+  Dispatch.once do
+    MUTEX = Mutex.new
+  end
+
   # Raises a TypeError to prevent cloning.
   def clone
     raise TypeError, "can't clone instance of singleton #{self.class}"
@@ -134,12 +139,10 @@ module PureMVCSingleton
       def klass.instance # :nodoc:
         return @singleton__instance__ if @singleton__instance__
 
-        queue = SingletonQueue.queue(self.name)
-
-        queue.sync {
+        PureMVCSingleton::MUTEX.synchronize do
           return @singleton__instance__ if @singleton__instance__
           @singleton__instance__ = new()
-        }
+        end
         @singleton__instance__
       end
       klass
@@ -160,29 +163,6 @@ module PureMVCSingleton
       klass.private_class_method :new, :allocate
       klass.extend SingletonClassMethods
       PureMVCSingleton.__init__(klass)
-    end
-  end
-
-  ##
-  # :singleton-method: _load
-  #  By default calls instance(). Override to retain singleton state.
-
-  class SingletonQueue
-    @@myq = nil
-    @@queue = nil
-
-    def self.queue(qname)
-      Dispatch.once do
-        @@myq = Dispatch::Queue.new('org.puremvc.__singleton__')
-        @@queue = {}
-      end
-      @@myq.sync do
-        if @@queue[qname].nil?
-          @@queue[qname] = Dispatch::Queue.new("org.puremvc.__singleton__.#{qname}")
-          #puts "Created queue for #{qname}"
-        end
-      end
-      @@queue[qname]
     end
   end
 end
