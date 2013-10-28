@@ -163,14 +163,13 @@ module PureMVCSingleton
 end
 
 class PureMVCSingletonMutexes
-  MUTEX = nil
   Dispatch.once do
-    MUTEX = Mutex.new
+    @@mutex = Mutex.new
     @@mutexes = {}
   end
 
   def self.mutex(name)
-    MUTEX.synchronize do
+    @@mutex.synchronize do
       return @@mutexes[name] unless @@mutexes[name].nil?
       @@mutexes[name] = Mutex.new
       return @@mutexes[name]
