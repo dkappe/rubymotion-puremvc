@@ -92,11 +92,6 @@
 #    p a.strip #  => nil
 #
 module PureMVCSingleton
-  MUTEX = nil
-  Dispatch.once do
-    MUTEX = Mutex.new
-  end
-
   # Raises a TypeError to prevent cloning.
   def clone
     raise TypeError, "can't clone instance of singleton #{self.class}"
@@ -138,8 +133,8 @@ module PureMVCSingleton
       }
       def klass.instance # :nodoc:
         return @singleton__instance__ if @singleton__instance__
-
-        PureMVCSingleton::MUTEX.synchronize do
+        mutex = PureMVCSingletonMutexes.mutex(klass.name)
+        mutex.synchronize do
           return @singleton__instance__ if @singleton__instance__
           @singleton__instance__ = new()
         end
@@ -167,3 +162,18 @@ module PureMVCSingleton
   end
 end
 
+class PureMVCSingletonMutexes
+  MUTEX = nil
+  Dispatch.once do
+    MUTEX = Mutex.new
+    @@mutexes = {}
+  end
+
+  def self.mutext(name)
+    MUTEX.synchronize do
+      return @@mutexes[name] unless @@mutexes[name].nil?
+      @@mutexes[name] = Mutex.new
+      return @@mutexes[name]
+    end
+  end
+end
