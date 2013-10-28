@@ -133,7 +133,7 @@ module PureMVCSingleton
       }
       def klass.instance # :nodoc:
         return @singleton__instance__ if @singleton__instance__
-        mutex = PureMVCSingletonMutexes.mutex(klass.name)
+        mutex = PureMVCSingletonMutexes.mutex(self.name)
         mutex.synchronize do
           return @singleton__instance__ if @singleton__instance__
           @singleton__instance__ = new()
