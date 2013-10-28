@@ -6,24 +6,26 @@
 # * Encapsulate the notification context (this) of the interested object.
 # * Provide methods for setting the notification method and context.
 # * Provide a method for notifying the interested object.
-class Observer
-  attr_accessor :notify, :context
-  
-  # The notification method on the interested object should take 
-  # one parameter of type Notification
-  def initialize(notify=nil, context=nil)
-    @notify = notify
-    @context = context
-  end
-  
-  # Notify the interested object.
-  def notify_observer(notification)
-    @context.method(@notify).call(notification)
-  end
-  
-  # Compare an object to the notification context.
-  def compare_notify_context(object)
-    @context.equal?(object)
+module PureMVC
+  class Observer
+    attr_accessor :notify, :context
+
+    # The notification method on the interested object should take
+    # one parameter of type Notification
+    def initialize(notify=nil, context=nil)
+      @notify = notify
+      @context = context
+    end
+
+    # Notify the interested object.
+    def notify_observer(notification)
+      @context.method(@notify).call(notification)
+    end
+
+    # Compare an object to the notification context.
+    def compare_notify_context(object)
+      @context.equal?(object)
+    end
   end
 end
 # PureMVC Port to Ruby by Jake Dempsey <jake.dempsey@puremvc.org>

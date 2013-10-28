@@ -14,25 +14,27 @@
 # until some parent component handles the Event, while PureMVC Notifications follow
 # a 'Publish/Subscribe' pattern. PureMVC classes need not be related to each other in a 
 # parent/child relationship in order to communicate with one another using Notifications.
-class Notification
-  
-  attr_accessor :body, :type
-  attr_reader :name
-  
-  def initialize(name=nil, body=nil, type=nil)
-    @name = name
-    @body = body
-    @type = type
+module PureMVC
+  class Notification
+
+    attr_accessor :body, :type
+    attr_reader :name
+
+    def initialize(name=nil, body=nil, type=nil)
+      @name = name
+      @body = body
+      @type = type
+    end
+
+    # Get the string representation of the Notification instance.
+    def to_s
+      msg = "Notifcation Name: #{@name}"
+      msg += "\nBody: #{@body.inspect}"
+      msg += "\nType: #{@type.inspect}"
+      msg
+    end
+
   end
-  
-  # Get the string representation of the Notification instance.
-  def to_s
-    msg = "Notifcation Name: #{@name}"
-    msg += "\nBody: #{@body.inspect}"
-    msg += "\nType: #{@type.inspect}"
-    msg
-  end
-  
 end
 # PureMVC Port to Ruby by Jake Dempsey <jake.dempsey@puremvc.org>
 # PureMVC - Copyright(c) 2006-2008 Futurescale, Inc., Some rights reserved.

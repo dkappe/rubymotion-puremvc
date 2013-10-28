@@ -8,18 +8,20 @@
 # convienience method for sending Notifications, but also eases implementation 
 # as these classes have frequent Facade interactions and usually require access
 # to the facade anyway.
-class Notifier
+module PureMVC
+  class Notifier
 
-  # Create and send an Notification.
-  #
-  # Keeps us from having to construct new Notification instances in our implementation code.
-  def send_notification(notification_name, body=nil, type=nil)
-    facade.send_notification(notification_name, body, type)
-  end
-  
-  # Local reference to the Facade Singleton
-  def facade
-    Facade.instance
+    # Create and send an Notification.
+    #
+    # Keeps us from having to construct new Notification instances in our implementation code.
+    def send_notification(notification_name, body=nil, type=nil)
+      facade.send_notification(notification_name, body, type)
+    end
+
+    # Local reference to the Facade Singleton
+    def facade
+      PureMVC::Facade.instance
+    end
   end
 end
 # PureMVC Port to Ruby by Jake Dempsey <jake.dempsey@puremvc.org>

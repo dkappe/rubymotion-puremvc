@@ -1,5 +1,5 @@
 describe "Initialize the facade in two threads" do
-  class MyFacade < Facade
+  class MyFacade < PureMVC::Facade
     def initialize
       super
       puts "in init"
