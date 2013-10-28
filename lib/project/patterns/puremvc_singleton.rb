@@ -169,7 +169,7 @@ class PureMVCSingletonMutexes
     @@mutexes = {}
   end
 
-  def self.mutext(name)
+  def self.mutex(name)
     MUTEX.synchronize do
       return @@mutexes[name] unless @@mutexes[name].nil?
       @@mutexes[name] = Mutex.new
